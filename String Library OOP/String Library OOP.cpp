@@ -7,8 +7,16 @@ int main()
 {
 	clsString String1("Hello World");
 
-	cout << String1.CabitalAllLetter() << endl;
-	cout << String1.LowerFirstLetter() << endl;
-	cout << String1.LowerAllLetter() << endl;
-	cout << String1.InvertAllString() << endl;
+	String1.CabitalAllLetter();
+	cout << String1.Value << endl;
+
+    String1.LowerFirstLetter();
+	cout << String1.Value << endl;
+
+	String1.LowerAllLetter();
+	cout << String1.Value << endl;
+
+	String1.InvertAllLeterCase();
+	cout << String1.Value << endl;
+
 }

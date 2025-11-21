@@ -25,6 +25,23 @@ public:
 		return _Value;
 	}
 
+	__declspec(property(get = GetValue, put = SetValue)) string Value;
+
+	static char InvertCharCase(char letter) {
+		return isupper(letter) ? tolower(letter) : toupper(letter);
+	}
+	static bool IsVowel(char Letter) {
+
+		Letter = tolower(Letter);
+		char Array[5] = { 'a','e','i','o','u' };
+
+		for (char& letter : Array) {
+			if (Letter == letter)
+				return true;
+		}
+		return false;
+	}
+
 	static void PrintFirstLetter(string Phase) {
 		bool IsFirstLetter = true;
 		for (short i = 0; i < Phase.length(); i++) {
@@ -48,8 +65,8 @@ public:
 		}
 		return Phase;
 	}
-	string CabitalFirstLetter() {
-		return CabitalFirstLetter(_Value);
+	void CabitalFirstLetter() {
+		_Value = CabitalFirstLetter(_Value);
 	}
 
 	static string LowerFirstLetter(string Phase) {
@@ -62,8 +79,8 @@ public:
 		}
 		return Phase;
 	}
-	string LowerFirstLetter() {
-		return LowerFirstLetter(_Value);
+	void LowerFirstLetter() {
+		_Value = LowerFirstLetter(_Value);
 	}
 
 	static string CabitalAllLetter(string Phase) {
@@ -72,8 +89,8 @@ public:
 		}
 		return Phase;
 	}
-	string CabitalAllLetter() {
-		return CabitalAllLetter(_Value);
+	void CabitalAllLetter() {
+		_Value = CabitalAllLetter(_Value);
 	}
 
 	static string LowerAllLetter(string Phase) {
@@ -82,16 +99,20 @@ public:
 		}
 		return Phase;
 	}
-	string LowerAllLetter() {
-		return LowerAllLetter(_Value);
+	void LowerAllLetter() {
+		_Value = LowerAllLetter(_Value);
 	}
 
-	string InvertAllString() {
+	static string InvertAllLeterCase(string Phase) {
 
-		for (int i = 0; i < _Value.length(); i++) {
-			_Value[i] = InvertChar(_Value[i]);
+		for (int i = 0; i < Phase.length(); i++) {
+			Phase[i] = InvertCharCase(Phase[i]);
 		}
-		return  _Value;
+		return  Phase;
+	}
+	void InvertAllLeterCase() {
+
+		_Value = InvertAllLeterCase(_Value);
 	}
 
 	static short CountCapitalLetter(string Phase) {
@@ -118,7 +139,7 @@ public:
 		return CountSmallLetter(_Value);
 	}
 
-	static short CountLetter(string Phase, char Letter, bool CaseSensitive = true) {
+	static short CountSpecificLetter(string Phase, char Letter, bool CaseSensitive = true) {
 		short countLetter = 0;
 		if (CaseSensitive) {
 			for (int i = 0; i < Phase.length(); i++) {
@@ -135,23 +156,8 @@ public:
 
 		return  countLetter;
 	}
-	short CountLetter(char Letter, bool CaseSensitive = true) {
-		return CountLetter(_Value, Letter, CaseSensitive);
-	}
-
-	static char InvertChar(char letter) {
-		return isupper(letter) ? tolower(letter) : toupper(letter);
-	}
-	static bool IsVowel(char Letter) {
-
-		Letter = tolower(Letter);
-		char Array[5] = { 'a','e','i','o','u' };
-
-		for (char& letter : Array) {
-			if (Letter == letter)
-				return true;
-		}
-		return false;
+	short CountSpecificLetter(char Letter, bool CaseSensitive = true) {
+		return CountSpecificLetter(_Value, Letter, CaseSensitive);
 	}
 
 	static short CountVowel(string Phase) {
@@ -178,7 +184,7 @@ public:
 		PrintVowel(_Value);
 	}
 
-	static void PrintWordInPhase(string Phase) {
+	static void PrintWordString(string Phase) {
 		short Pos = 0;
 		string Delim = " ";
 		string Word;
@@ -192,11 +198,11 @@ public:
 		if (Phase != "")
 			cout << Phase << "\n";
 	}
-	void PrintWordInPhase() {
-		PrintWordInPhase(_Value);
+	void PrintWord() {
+		PrintWordString(_Value);
 	}
 
-	static short CountWordInPhase(string Phase) {
+	static short CountWordString(string Phase) {
 		short Pos = 0;
 		short Count = 0;
 		string Delim = " ";
@@ -211,8 +217,8 @@ public:
 			Count++;
 		return Count;
 	}
-	short CountWordInPhase() {
-		return CountWordInPhase(_Value);
+	short CountWord() {
+		return CountWordString(_Value);
 	}
 
 	static vector<string> SplitString(string Phase, string Delim) {
@@ -229,14 +235,8 @@ public:
 			splitWord.push_back(Phase);
 		return splitWord;
 	}
-	vector<string> SplitString(string Delim) {
+	vector<string> Split(string Delim) {
 		return SplitString(_Value, Delim);
-	}
-
-	void PrintSplitString(vector<string>& splitWord) {
-		cout << "Tokens Number = " << splitWord.size() << "\n";
-		for (string& word : splitWord)
-			cout << word << "\n";
 	}
 
 	static string TirmLeft(string Phase) {
@@ -247,8 +247,8 @@ public:
 		}
 		return "";
 	}
-	string TirmLeft() {
-		return TirmLeft(_Value);
+	void TirmLeft() {
+		_Value = TirmLeft(_Value);
 	}
 
 	static string TirmRight(string Phase) {
@@ -259,15 +259,15 @@ public:
 		}
 		return "";
 	}
-	string TirmRight() {
-		return TirmRight(_Value);
+	void TirmRight() {
+		_Value = TirmRight(_Value);
 	}
 
 	static string TirmString(string Phase) {
 		return TirmRight(TirmLeft(Phase));
 	}
-	string TirmString() {
-		return TirmString(_Value);
+	void Tirm() {
+		_Value = TirmString(_Value);
 	}
 
 	static string JoinString(vector<string>& splitWord, string Delimiter) {
@@ -277,8 +277,7 @@ public:
 		}
 		return Phase.substr(0, Phase.length() - Delimiter.length());
 	}
-
-	string JoinString(string splitWord[3], short length, string Delimiter) {
+	static string JoinString(string splitWord[], short length, string Delimiter) {
 		string Phase;
 		for (short i = 0; i < length; i++) {
 			Phase += splitWord[i] + Delimiter;
@@ -301,11 +300,11 @@ public:
 		sRevers = sRevers.substr(0, sRevers.length() - 1);
 		return sRevers;
 	}
-	string ReverseWordInString() {
-		return  ReverseWordInString(_Value);
+	void ReverseWord() {
+		_Value = ReverseWordInString(_Value);
 	}
 
-	static string ReplaceStringCustomFunc(string StringOriginal, string WordOriginal, string WordToReplace, bool MatchCase = true) {
+	static string ReplaceString(string StringOriginal, string WordOriginal, string WordToReplace, bool MatchCase = true) {
 		vector<string> s1;
 		s1 = SplitString(StringOriginal, " ");
 		if (MatchCase) {
@@ -324,8 +323,8 @@ public:
 		}
 		return JoinString(s1, " ");
 	}
-	string ReplaceStringCustomFunc(string WordOriginal, string WordToReplace, bool MatchCase = true) {
-		return  ReplaceStringCustomFunc(_Value, WordOriginal, WordToReplace, MatchCase);
+	void Replace(string WordOriginal, string WordToReplace, bool MatchCase = true) {
+		_Value = ReplaceString(_Value, WordOriginal, WordToReplace, MatchCase);
 	}
 
 	static string DeleteBunct(string StringOriginal) {
@@ -337,11 +336,9 @@ public:
 		}
 		return StringDelete;
 	}
-	string DeleteBunct() {
-		return  DeleteBunct(_Value);
+	void DeleteBunct() {
+		_Value = DeleteBunct(_Value);
 	}
 
-
-	__declspec(property(get = GetValue, put = SetValue)) string Value;
 };
 
